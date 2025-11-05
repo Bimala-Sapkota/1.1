@@ -23,8 +23,6 @@ const SeatLayout = () => {
   const [show, setShow] = useState(null);
   const [occupiedSeats, setOccupiedSeats] = useState([]);
 
-  const navigate = useNavigate();
-
   const { axios, getToken, user } = useAppContext();
 
   const getShow = async () => {
