@@ -5,6 +5,7 @@ import { CheckIcon, DeleteIcon, StarIcon } from "lucide-react";
 import { kConverter } from "../../lib/kConverter";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
+import { dummyShowsData } from "../../assets/assets";
 
 const AddShows = () => {
   const { axios, getToken, user, image_base_url } = useAppContext();
@@ -18,17 +19,7 @@ const AddShows = () => {
   const [addingShow, setAddingShow] = useState(false);
 
   const fetchNowPlayingMovies = async () => {
-    try {
-      const { data } = await axios.get("/api/show/now-playing", {
-        headers: { Authorization: `Bearer ${await getToken()}` },
-      });
-
-      if (data.success) {
-        setNowPlayingMovies(data.movies);
-      }
-    } catch (error) {
-      console.error("Error fetching movies:", error);
-    }
+    setNowPlayingMovies(dummyShowsData);
   };
 
   const handleDateTimeAdd = () => {
@@ -103,10 +94,8 @@ const AddShows = () => {
   };
 
   useEffect(() => {
-    if (user) {
-      fetchNowPlayingMovies();
-    }
-  }, [user]);
+    fetchNowPlayingMovies();
+  }, []);
 
   return nowPlayingMovies.length > 0 ? (
     <>
@@ -122,7 +111,7 @@ const AddShows = () => {
             >
               <div className="relative rounded-lg overflow-hidden">
                 <img
-                  src={image_base_url + movie.poster_path}
+                  src={movie.poster_path}
                   alt="movie_poster"
                   className="w-full object-cover brightness-90"
                 />

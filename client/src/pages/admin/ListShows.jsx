@@ -3,6 +3,7 @@ import Loading from "../../components/Loading";
 import Title from "../../components/admin/Title";
 import { dateFormat } from "../../lib/dateFormat";
 import { useAppContext } from "../../context/AppContext";
+import { dummyShowsData } from "../../assets/assets";
 
 const ListShows = () => {
   const { axios, getToken, user } = useAppContext();
@@ -14,10 +15,19 @@ const ListShows = () => {
 
   const getAllShow = async () => {
     try {
-      const { data } = await axios.get("/api/admin/all-shows", {
-        headers: { Authorization: `Bearer ${await getToken()}` },
-      });
-      setShows(data.shows);
+      setShows([
+        {
+          movie: dummyShowsData[0],
+          showDateTime: "2025-06-30T02:30:00.000z",
+          showPrice: 59,
+          occupiedSeats: {
+            A1: "user-1",
+            B1: "user_2",
+            C1: "user_3",
+          },
+        },
+      ]);
+
       setLoading(false);
     } catch (error) {
       console.error(error);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { assets } from "../assets/assets";
+import { assets, dummyDateTimeData, dummyShowsData } from "../assets/assets";
 import Loading from "../components/Loading";
 import { ArrowRightIcon, ClockIcon } from "lucide-react";
 import isoTimeFormat from "../lib/isoTimeFormat";
@@ -23,18 +23,23 @@ const SeatLayout = () => {
   const [show, setShow] = useState(null);
   const [occupiedSeats, setOccupiedSeats] = useState([]);
 
+  const navigate = useNavigate();
+
   const { axios, getToken, user } = useAppContext();
 
   const getShow = async () => {
-    try {
-      const { data } = await axios.get(`/api/show/${id}`);
-      if (data.success) {
-        setShow(data);
-      }
-    } catch (error) {
-      console.log(error);
+    const show = dummyShowsData.find((show) => show._id === id);
+    if (show) {
+      setShow({
+        movie: show,
+        dateTime: dummyDateTimeData,
+      });
     }
   };
+
+  useEffect(() => {
+    getShow();
+  }, []);
 
   const handleSeatClick = (seatId) => {
     if (!selectedTime) {
@@ -111,10 +116,6 @@ const SeatLayout = () => {
       toast.error(error.message);
     }
   };
-
-  useEffect(() => {
-    getShow();
-  }, []);
 
   useEffect(() => {
     if (selectedTime) {

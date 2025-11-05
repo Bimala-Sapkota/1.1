@@ -12,6 +12,7 @@ import BlurCircle from "../../components/BlurCircle";
 import { dateFormat } from "../../lib/dateFormat";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
+import { dummyDashboardData } from "../../assets/assets";
 
 const Dashboard = () => {
   const { axios, getToken, user, image_base_url } = useAppContext();
@@ -57,7 +58,7 @@ const Dashboard = () => {
       });
 
       if (data.success) {
-        setDashboardData(data.dashboardData);
+        setDashboardData(dummyDashboardData);
         setLoading(false);
       } else {
         toast.error(data.message);
@@ -68,10 +69,8 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    if (user) {
-      fetchDashboardData();
-    }
-  }, [user]);
+    fetchDashboardData();
+  }, []);
 
   return !loading ? (
     <>
@@ -103,7 +102,7 @@ const Dashboard = () => {
             className="w-55 rounded-lg overflow-hidden h-full pb-3 bg-primary/10 border border-primary/20 hover:-translate-y-1 transition duration-300"
           >
             <img
-              src={image_base_url + show.movie.poster_path}
+              src={show.movie.poster_path}
               alt="poster"
               className="h-60 w-full object-cover"
             />
