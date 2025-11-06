@@ -68,8 +68,10 @@ export const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchShows();
-  }, []);
+    if (user) {
+      fetchShows();
+    }
+  }, [user]);
 
   useEffect(() => {
     if (user) {
